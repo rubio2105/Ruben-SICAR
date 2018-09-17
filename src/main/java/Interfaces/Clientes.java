@@ -68,7 +68,7 @@ public final class Clientes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldID = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

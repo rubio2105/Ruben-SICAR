@@ -130,7 +130,7 @@ public class Abono extends javax.swing.JFrame {
         });
         Crédito.getContentPane().add(jTextFieldBUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 250, -1));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -228,7 +228,7 @@ public class Abono extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel4.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 140, 40));
+        jPanel4.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, 90, 40));
 
         jLabel3.setText("$");
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 10, 30));
