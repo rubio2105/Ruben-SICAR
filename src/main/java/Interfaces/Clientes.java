@@ -34,7 +34,8 @@ public final class Clientes extends javax.swing.JFrame {
     public Clientes() throws SQLException {
         initComponents();
         cargarclientes();
-        cargarcodDETALLE();
+        cargarcodDETALLE(); 
+        this.setLocationRelativeTo(null);
         this.jPanel1.setBackground(Color.white);
     }
 

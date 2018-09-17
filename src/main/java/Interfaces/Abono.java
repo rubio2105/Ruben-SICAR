@@ -39,6 +39,7 @@ public class Abono extends javax.swing.JFrame {
      */
     public Abono() {
         initComponents();
+         this.setLocationRelativeTo(null);
     }
 
     /**
@@ -319,7 +320,7 @@ public class Abono extends javax.swing.JFrame {
                         insertar.setString(1, String.valueOf(resta).trim());
                         insertar.executeUpdate();
                         
-                        JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                         limpiar();
 
                     } catch (SQLException | HeadlessException e) {
