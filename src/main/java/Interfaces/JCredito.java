@@ -76,6 +76,7 @@ public class JCredito extends javax.swing.JFrame {
         jButtonGuardar = new javax.swing.JButton();
         jLabelIDCREDITO = new javax.swing.JLabel();
         FECHA = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         CLIENTES.setTitle("BÚSQUEDA DE CLIENTES");
         CLIENTES.setResizable(false);
@@ -202,9 +203,18 @@ public class JCredito extends javax.swing.JFrame {
                 jButtonGuardarActionPerformed(evt);
             }
         });
-        jPanel3.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 80, 40));
+        jPanel3.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 80, 40));
         jPanel3.add(jLabelIDCREDITO, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 50, 30));
         jPanel3.add(FECHA, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 150, 30));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setText("Abonar a un Crédito");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 170, 40));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 570, 230));
 
@@ -351,6 +361,12 @@ public class JCredito extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextFieldBUSCARKeyPressed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         Abono ad = new Abono();
+        ad.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -393,6 +409,7 @@ public class JCredito extends javax.swing.JFrame {
     private javax.swing.JTable TABLABASECLIENT;
     private javax.swing.JButton botonExit;
     private javax.swing.JButton btnBuscaCliente1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
