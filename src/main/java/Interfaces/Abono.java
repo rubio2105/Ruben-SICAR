@@ -7,6 +7,7 @@ package Interfaces;
 
 import conexionBD.MySQL;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,7 +59,14 @@ public class Abono extends javax.swing.JFrame {
         jButtonSALIR = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableMEMBRE = new javax.swing.JTable();
+        jTableMEMBRE = new javax.swing.JTable(){
+
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }
+        };
+
+        ;
         jTextFieldBUSQUEDA = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -117,6 +125,9 @@ public class Abono extends javax.swing.JFrame {
             }
         });
         jTableMEMBRE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMEMBREMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTableMEMBREMousePressed(evt);
             }
@@ -298,7 +309,7 @@ public class Abono extends javax.swing.JFrame {
                 int ban = 0;
                 int status = -1;
                 String id = txtNUMERO.getText().trim();
-                
+
                 abono = Integer.parseInt(jTextFieldABONO.getText().trim());
                 deuda = Integer.parseInt(jTextFieldDEUDA.getText().trim());
 
@@ -308,55 +319,51 @@ public class Abono extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Cantidad erronea... mayor a la deuda");
                     ban = 1;
                 }
-                System.out.println(resta +" Deuda "+ deuda+ "Abono " + abono);
+
                 if (ban == 0) {
-                    //try {
-                        if (resta == 0) {
-                            try {
-                                MySQL obj = new MySQL();
-                                obj.MySQLConnect();
-                                obj.comando = obj.conexion.createStatement();
-                                PreparedStatement insertar = null;
-                                
-                                String consulta = ("update credito "
-                                        + "set deuda_credito= ? ,"
-                                        + "status= ? "
-                                        + "where cliente_id_cliente= ? ");
-                                insertar = obj.conexion.prepareStatement(consulta);
-                                insertar.setInt(3, Integer.parseInt(id));
-                                insertar.setString(1, String.valueOf(resta).trim());
-                                insertar.setInt(2, status);
-                                insertar.executeUpdate();
-                                
-                                JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, La Deuda ha sido pagada en su totalidad", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                                limpiar();
-                            } catch (SQLException ex) {
-                                Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            try {
-                                MySQL obj = new MySQL();
-                                obj.MySQLConnect();
-                                obj.comando = obj.conexion.createStatement();
-                                PreparedStatement insertar = null;
-                                
-                                String consulta = ("update credito "
-                                        + "set deuda_credito= ? "
-                                        + "where cliente_id_cliente= ? ");
-                                insertar = obj.conexion.prepareStatement(consulta);
-                                insertar.setInt(2, Integer.parseInt(id));
-                                insertar.setString(1, String.valueOf(resta).trim());
-                                insertar.executeUpdate();
-                                
-                                JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                                limpiar();
-                            } catch (SQLException ex) {
-                                Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    if (resta == 0) {
+                        try {
+                            MySQL obj = new MySQL();
+                            obj.MySQLConnect();
+                            obj.comando = obj.conexion.createStatement();
+                            PreparedStatement insertar = null;
+
+                            String consulta = ("update credito "
+                                    + "set deuda_credito= ? ,"
+                                    + "status= ? "
+                                    + "where cliente_id_cliente= ? ");
+                            insertar = obj.conexion.prepareStatement(consulta);
+                            insertar.setInt(3, Integer.parseInt(id));
+                            insertar.setString(1, String.valueOf(resta).trim());
+                            insertar.setInt(2, status);
+                            insertar.executeUpdate();
+
+                            JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, La Deuda ha sido pagada en su totalidad", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                            limpiar();
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "No se guardó el Abono al crédito, verifique", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
-                    /*} catch (SQLException | HeadlessException e) {
-                        JOptionPane.showMessageDialog(null, "No se guardó el Abono al crédito, verifique", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }*/
+                    } else {
+                        try {
+                            MySQL obj = new MySQL();
+                            obj.MySQLConnect();
+                            obj.comando = obj.conexion.createStatement();
+                            PreparedStatement insertar = null;
+
+                            String consulta = ("update credito "
+                                    + "set deuda_credito= ? "
+                                    + "where cliente_id_cliente= ? ");
+                            insertar = obj.conexion.prepareStatement(consulta);
+                            insertar.setInt(2, Integer.parseInt(id));
+                            insertar.setString(1, String.valueOf(resta).trim());
+                            insertar.executeUpdate();
+
+                            JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                            limpiar();
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "No se guardó el Abono al crédito, verifique", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
             }
         }
@@ -420,6 +427,47 @@ public class Abono extends javax.swing.JFrame {
     private void jTableMEMBREMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMEMBREMousePressed
         /* 
          */
+        if (evt.getClickCount() == 2) {
+            String dni;
+            String nombre;
+            String deuda;
+            String fecha;
+            // TODO add your handling code here:
+            try {
+                int fsel = jTableMEMBRE.getSelectedRow();
+
+                if (fsel == -1) {
+                    JOptionPane.showMessageDialog(null, "Debe Seleccionar Un Crédito ", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    m = (DefaultTableModel) jTableMEMBRE.getModel();
+                    dni = jTableMEMBRE.getValueAt(fsel, 0).toString().trim();
+                    deuda = jTableMEMBRE.getValueAt(fsel, 3).toString().trim();
+                    nombre = jTableMEMBRE.getValueAt(fsel, 1).toString().trim();
+                    fecha = jTableMEMBRE.getValueAt(fsel, 4).toString().trim();
+                    String consulta = "SELECT cliente.id_cliente, cliente.nombre_cliente, cliente.telefono_cliente, credito.deuda_credito, credito.fecha_credito\n"
+                            + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente where\n"
+                            + "cliente.id_cliente='" + Integer.parseInt(dni) + "'";
+                    MySQL obj = new MySQL();
+                    obj.MySQLConnect();
+                    obj.comando = obj.conexion.createStatement();
+                    ResultSet r = obj.comando.executeQuery(consulta);
+
+                    while (r.next()) {
+
+                    }
+                    txtNUMERO.setText("" + dni + "");
+                    jTextFieldDEUDA.setText("" + deuda + "");
+                    txtNOMBRE.setText("" + nombre + "");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se pudo agregar el Crédito indicado");
+            }
+            Crédito.dispose();
+        }
+
+
     }//GEN-LAST:event_jTableMEMBREMousePressed
 
     private void jTextFieldBUSQUEDAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSQUEDAKeyPressed
@@ -428,6 +476,11 @@ public class Abono extends javax.swing.JFrame {
             buscarCliente();
         }
     }//GEN-LAST:event_jTextFieldBUSQUEDAKeyPressed
+
+    private void jTableMEMBREMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMEMBREMouseClicked
+        // TODO add your handling code here:
+        //4
+    }//GEN-LAST:event_jTableMEMBREMouseClicked
 
     /**
      * @param args the command line arguments
@@ -507,7 +560,7 @@ public class Abono extends javax.swing.JFrame {
             String DATO = jTextFieldBUSQUEDA.getText().trim();
             String consulta = "";
             consulta = "SELECT cliente.id_cliente, cliente.nombre_cliente, cliente.telefono_cliente, credito.deuda_credito, credito.fecha_credito\n"
-                    + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente WHERE status=1";
+                    + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente WHERE credito.status=1";
             MySQL obj = new MySQL();
             obj.MySQLConnect();
             obj.comando = obj.conexion.createStatement();

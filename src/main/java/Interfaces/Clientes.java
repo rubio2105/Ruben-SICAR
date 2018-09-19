@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 public final class Clientes extends javax.swing.JFrame {
 
     DefaultTableModel m;
-    String monto=null;
+    String monto = null;
 
     /**
      * Creates new form Creditos
@@ -34,7 +34,7 @@ public final class Clientes extends javax.swing.JFrame {
     public Clientes() throws SQLException {
         initComponents();
         cargarclientes();
-        cargarcodDETALLE(); 
+        cargarcodDETALLE();
         this.setLocationRelativeTo(null);
         this.jPanel1.setBackground(Color.white);
     }
@@ -63,145 +63,151 @@ public final class Clientes extends javax.swing.JFrame {
         jButtonLimpiar = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableClientes = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextFieldID = new javax.swing.JTextField();
+        jTableClientes = new javax.swing.JTable()
+        {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Clientes");
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }}
+            ;
+            jLabel5 = new javax.swing.JLabel();
+            jLabel6 = new javax.swing.JLabel();
+            jTextFieldID = new javax.swing.JTextField();
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Clientes");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Nombre: ");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 60, 30));
+            jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextFieldNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNombreActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 220, 30));
+            jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+            jLabel1.setText("Nombre: ");
+            jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 60, 30));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Dirección:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, 30));
+            jTextFieldNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jTextFieldNombreActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 220, 30));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Municipio:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, 30));
+            jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+            jLabel2.setText("Dirección:");
+            jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Teléfono:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, -1, 30));
+            jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+            jLabel3.setText("Municipio:");
+            jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, 30));
 
-        jTextFieldDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 300, 30));
+            jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+            jLabel4.setText("Teléfono:");
+            jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, -1, 30));
 
-        jTextFieldMunicipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextFieldMunicipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 150, 30));
+            jTextFieldDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 300, 30));
 
-        jTextFieldTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextFieldTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 110, 30));
+            jTextFieldMunicipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jPanel1.add(jTextFieldMunicipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 150, 30));
 
-        jButtonGuardar.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonGuardar.setText("Guardar");
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 110, 50));
+            jTextFieldTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jPanel1.add(jTextFieldTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 110, 30));
 
-        jButtonModificar.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonModificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonModificar.setText("Modificar");
-        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonModificarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, -1, 50));
+            jButtonGuardar.setBackground(new java.awt.Color(255, 255, 255));
+            jButtonGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonGuardar.setText("Guardar");
+            jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonGuardarActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 110, 50));
 
-        jButtonEliminar.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonEliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonEliminar.setText("Eliminar");
-        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, -1, 50));
+            jButtonModificar.setBackground(new java.awt.Color(255, 255, 255));
+            jButtonModificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonModificar.setText("Modificar");
+            jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonModificarActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jButtonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, -1, 50));
 
-        jButtonLimpiar.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonLimpiar.setText("Limpiar");
-        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLimpiarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 120, 50));
+            jButtonEliminar.setBackground(new java.awt.Color(255, 255, 255));
+            jButtonEliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonEliminar.setText("Eliminar");
+            jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonEliminarActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, -1, 50));
 
-        jButtonSalir.setBackground(new java.awt.Color(255, 204, 204));
-        jButtonSalir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 90, 50));
+            jButtonLimpiar.setBackground(new java.awt.Color(255, 255, 255));
+            jButtonLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonLimpiar.setText("Limpiar");
+            jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonLimpiarActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jButtonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 120, 50));
 
-        jTableClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTableClientesMousePressed(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableClientes);
+            jButtonSalir.setBackground(new java.awt.Color(255, 204, 204));
+            jButtonSalir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonSalir.setText("Salir");
+            jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButtonSalirActionPerformed(evt);
+                }
+            });
+            jPanel1.add(jButtonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 90, 50));
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 600, 230));
+            jTableClientes.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jTableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    jTableClientesMousePressed(evt);
+                }
+            });
+            jScrollPane1.setViewportView(jTableClientes);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Lista de Clientes");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 40));
+            jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 600, 230));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("ID:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+            jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+            jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            jLabel5.setText("Lista de Clientes");
+            jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 40));
 
-        jTextFieldID.setEditable(false);
-        jTextFieldID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextFieldID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 50, 30));
+            jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+            jLabel6.setText("ID:");
+            jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+            jTextFieldID.setEditable(false);
+            jTextFieldID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jPanel1.add(jTextFieldID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 50, 30));
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
         // TODO add your handling code here:
@@ -334,18 +340,23 @@ public final class Clientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe Seleccionar Un Cliente Para Eliminarlo", "MENSAJE", JOptionPane.WARNING_MESSAGE);
         } else {
 
-            int res = JOptionPane.showConfirmDialog(null, "Está Seguro De Eliminar El Cliente:  " + this.jTextFieldNombre.getText().trim(), "MENSAJE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            int res = JOptionPane.showConfirmDialog(null, "Está Seguro De Eliminar al Cliente:  " + this.jTextFieldNombre.getText().trim(), "MENSAJE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (res == 0) {
                 try {
+                    int status=-1;
+                    int id=Integer.parseInt(jTextFieldID.getText().trim());
                     MySQL obj = new MySQL();
-                    String cod = jTextFieldID.getText().trim();
-                    String c = ("DELETE FROM cliente WHERE id_cliente= ?");
                     obj.MySQLConnect();
                     obj.comando = obj.conexion.createStatement();
-                    PreparedStatement insertar;
-                    insertar = obj.conexion.prepareStatement(c);
-                    insertar.setInt(1, Integer.parseInt(cod));
-                    insertar.execute();
+                    PreparedStatement insertar = null;
+
+                    String consulta = ("update cliente "
+                            + "set status= ? "
+                            + "where id_cliente= ? ");
+                    insertar = obj.conexion.prepareStatement(consulta);
+                    insertar.setInt(2, id);
+                    insertar.setInt(1, status);  
+                    insertar.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Cliente Eliminado");
                     cargarclientes();
                     limpiar();
@@ -427,7 +438,7 @@ public final class Clientes extends javax.swing.JFrame {
             m = new DefaultTableModel(null, titulos);
             JTable p = new JTable(m);
             String fila[] = new String[4];
-            String consulta = "SELECT *  FROM  cliente";
+            String consulta = "SELECT *  FROM  cliente where status=1";
             MySQL obj = new MySQL();
             obj.MySQLConnect();
             obj.comando = obj.conexion.createStatement();
