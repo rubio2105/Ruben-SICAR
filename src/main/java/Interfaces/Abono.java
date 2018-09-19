@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -39,7 +41,7 @@ public class Abono extends javax.swing.JFrame {
      */
     public Abono() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -294,8 +296,9 @@ public class Abono extends javax.swing.JFrame {
                 int deuda = 0;
                 int resta = 0;
                 int ban = 0;
+                int status = -1;
                 String id = txtNUMERO.getText().trim();
-
+                
                 abono = Integer.parseInt(jTextFieldABONO.getText().trim());
                 deuda = Integer.parseInt(jTextFieldDEUDA.getText().trim());
 
@@ -305,27 +308,55 @@ public class Abono extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Cantidad erronea... mayor a la deuda");
                     ban = 1;
                 }
-                if (ban == 0) {              
-                    try {
-                        MySQL obj = new MySQL();
-                        obj.MySQLConnect();
-                        obj.comando = obj.conexion.createStatement();
-                        PreparedStatement insertar=null;
-
-                        String consulta = ("update credito "
-                                + "set deuda_credito= ? "
-                                + "where cliente_id_cliente= ? ");
-                        insertar = obj.conexion.prepareStatement(consulta);
-                        insertar.setInt(2, Integer.parseInt(id));
-                        insertar.setString(1, String.valueOf(resta).trim());
-                        insertar.executeUpdate();
-                        
-                        JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                        limpiar();
-
-                    } catch (SQLException | HeadlessException e) {
+                System.out.println(resta +" Deuda "+ deuda+ "Abono " + abono);
+                if (ban == 0) {
+                    //try {
+                        if (resta == 0) {
+                            try {
+                                MySQL obj = new MySQL();
+                                obj.MySQLConnect();
+                                obj.comando = obj.conexion.createStatement();
+                                PreparedStatement insertar = null;
+                                
+                                String consulta = ("update credito "
+                                        + "set deuda_credito= ? ,"
+                                        + "status= ? "
+                                        + "where cliente_id_cliente= ? ");
+                                insertar = obj.conexion.prepareStatement(consulta);
+                                insertar.setInt(3, Integer.parseInt(id));
+                                insertar.setString(1, String.valueOf(resta).trim());
+                                insertar.setInt(2, status);
+                                insertar.executeUpdate();
+                                
+                                JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, La Deuda ha sido pagada en su totalidad", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                                limpiar();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            try {
+                                MySQL obj = new MySQL();
+                                obj.MySQLConnect();
+                                obj.comando = obj.conexion.createStatement();
+                                PreparedStatement insertar = null;
+                                
+                                String consulta = ("update credito "
+                                        + "set deuda_credito= ? "
+                                        + "where cliente_id_cliente= ? ");
+                                insertar = obj.conexion.prepareStatement(consulta);
+                                insertar.setInt(2, Integer.parseInt(id));
+                                insertar.setString(1, String.valueOf(resta).trim());
+                                insertar.executeUpdate();
+                                
+                                JOptionPane.showMessageDialog(null, "Abono realizado exitosamente, la deuda que queda es de: $" + resta + "", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                                limpiar();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    /*} catch (SQLException | HeadlessException e) {
                         JOptionPane.showMessageDialog(null, "No se guardó el Abono al crédito, verifique", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
+                    }*/
                 }
             }
         }
@@ -338,7 +369,7 @@ public class Abono extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
         limpiar();
-        
+
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void jButtonAGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAGREGARActionPerformed
@@ -476,7 +507,7 @@ public class Abono extends javax.swing.JFrame {
             String DATO = jTextFieldBUSQUEDA.getText().trim();
             String consulta = "";
             consulta = "SELECT cliente.id_cliente, cliente.nombre_cliente, cliente.telefono_cliente, credito.deuda_credito, credito.fecha_credito\n"
-                    + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente";
+                    + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente WHERE status=1";
             MySQL obj = new MySQL();
             obj.MySQLConnect();
             obj.comando = obj.conexion.createStatement();

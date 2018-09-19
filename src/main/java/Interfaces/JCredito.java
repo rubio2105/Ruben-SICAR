@@ -24,7 +24,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Rubén
  */
-public class JCredito extends javax.swing.JFrame {
+public final class JCredito extends javax.swing.JFrame {
 
     DefaultTableModel m;
     String nombre, dni, direccion;
@@ -262,7 +262,6 @@ public class JCredito extends javax.swing.JFrame {
         if (((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE)
                 && (caracter != '.')) {
             JOptionPane.showMessageDialog(null, "No se permite el ingreso de letras");
-
             evt.consume();
             jTextFieldMONTO.setText("");
         }
@@ -271,8 +270,6 @@ public class JCredito extends javax.swing.JFrame {
     private void jTextFieldMONTOKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMONTOKeyTyped
         // TODO add your handling code here:
         if (jTextFieldMONTO.getText().length() == 9) {
-
-            //jTextFieldPLAZO.setText("");
             JOptionPane.showMessageDialog(null, "Sólo se permiten nueve caracteres");
             jTextFieldMONTO.requestFocus();
             evt.consume();
@@ -293,7 +290,7 @@ public class JCredito extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Falta Indicar El Monto Del Crédito", "VERIFICAR", JOptionPane.WARNING_MESSAGE);
                 this.jTextFieldMONTO.requestFocus();
             } else if (this.FECHA.getDate() == null) {
-                JOptionPane.showMessageDialog(null, "Seleccione una Fecha Por Favor", "VERIFICAR", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Seleccione una Fecha", "VERIFICAR", JOptionPane.WARNING_MESSAGE);
             } else {
                 int ban = 0;
                 try {
@@ -307,11 +304,8 @@ public class JCredito extends javax.swing.JFrame {
                     insertar = obj.conexion.prepareStatement(consultaCaso);
 
                     insertar.setString(1, jLabelIDCREDITO.getText().trim());
-
                     insertar.setString(2, TransformarFecha().trim());
-
                     insertar.setString(3, jTextFieldMONTO.getText().trim());
-
                     insertar.setString(4, jLabelIDCLIENTE.getText().trim());
                     insertar.setString(5, jTextFieldMONTO.getText().trim());
 
@@ -459,10 +453,10 @@ public class JCredito extends javax.swing.JFrame {
                 index++;
             }
             TABLABASECLIENT.setModel(m);
-            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(m);
+            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<>(m);
             TABLABASECLIENT.setRowSorter(elQueOrdena);
             this.TABLABASECLIENT.setModel(m);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al extraer los datos de la tabla", "ADVERTENCIA", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -492,7 +486,7 @@ public class JCredito extends javax.swing.JFrame {
             cargarcodnotaDETALLE();
         }
     }
-
+    
     public void cargarcodnotaDETALLE() throws SQLException {
 
         MySQL obj = new MySQL();
