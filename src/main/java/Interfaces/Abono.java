@@ -103,7 +103,7 @@ public class Abono extends javax.swing.JFrame {
         Crédito.getContentPane().add(jButtonSALIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, 140, -1));
 
         jLabel4.setText("BUSCAR:");
-        Crédito.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        Crédito.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
 
         jTableMEMBRE.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -473,7 +473,7 @@ public class Abono extends javax.swing.JFrame {
     private void jTextFieldBUSQUEDAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSQUEDAKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {// llama el evento cuanto presiona ENTER
-            buscarCliente();
+            buscarClienteEspecifico();
         }
     }//GEN-LAST:event_jTextFieldBUSQUEDAKeyPressed
 
@@ -561,6 +561,40 @@ public class Abono extends javax.swing.JFrame {
             String consulta = "";
             consulta = "SELECT cliente.id_cliente, cliente.nombre_cliente, cliente.telefono_cliente, credito.deuda_credito, credito.fecha_credito\n"
                     + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente WHERE credito.status=1";
+            MySQL obj = new MySQL();
+            obj.MySQLConnect();
+            obj.comando = obj.conexion.createStatement();
+            ResultSet r = obj.comando.executeQuery(consulta);
+
+            while (r.next()) {
+                fila[0] = r.getString(1).trim();
+                fila[1] = r.getString(2).trim();
+                fila[2] = r.getString(3).trim();
+                fila[3] = r.getString(4).trim();
+                fila[4] = r.getString(5).trim();
+
+                m.addRow(fila);
+            }
+            jTableMEMBRE.setModel(m);
+            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(m);
+            jTableMEMBRE.setRowSorter(elQueOrdena);
+            this.jTableMEMBRE.setModel(m);
+            FormatoTabla();
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al Buscar el cliente", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void buscarClienteEspecifico() {
+        try {
+            String titulos[] = {"ID", "Nombre Completo", "Teléfono", "Deuda", " Fecha de Deuda"};
+            m = new DefaultTableModel(null, titulos);
+            JTable p = new JTable(m);
+            String fila[] = new String[5];
+            String DATO = jTextFieldBUSQUEDA.getText().trim();
+            String consulta = "";
+            consulta = "SELECT cliente.id_cliente, cliente.nombre_cliente, cliente.telefono_cliente, credito.deuda_credito, credito.fecha_credito\n"
+                    + "FROM cliente INNER JOIN credito ON cliente.id_cliente = credito.cliente_id_cliente where nombre_cliente like '%" + DATO + "%' and credito.status=1";
             MySQL obj = new MySQL();
             obj.MySQLConnect();
             obj.comando = obj.conexion.createStatement();

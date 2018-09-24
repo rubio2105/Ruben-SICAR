@@ -30,6 +30,7 @@ public final class Clientes extends javax.swing.JFrame {
 
     /**
      * Creates new form Creditos
+     * @throws java.sql.SQLException
      */
     public Clientes() throws SQLException {
         initComponents();
@@ -240,7 +241,7 @@ public final class Clientes extends javax.swing.JFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al cargar los Datos", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -386,26 +387,21 @@ public final class Clientes extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new Clientes().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new Clientes().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -456,10 +452,10 @@ public final class Clientes extends javax.swing.JFrame {
                 index++;
             }
             jTableClientes.setModel(m);
-            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(m);
+            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<>(m);
             jTableClientes.setRowSorter(elQueOrdena);
             this.jTableClientes.setModel(m);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al extraer los datos de la tabla", "ADVERTENCIA", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -511,7 +507,7 @@ public final class Clientes extends javax.swing.JFrame {
             while (r.next()) {
                 c = r.getString(1);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "NO SE PUDO EJECUTAR LA CONSULTA");
         }
         int add = Integer.parseInt(c) + 1;

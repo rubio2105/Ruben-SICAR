@@ -127,6 +127,9 @@ public final class JCredito extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldBUSCARKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBUSCARKeyTyped(evt);
+            }
         });
         jPanel7.add(jTextFieldBUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 200, 30));
 
@@ -351,15 +354,20 @@ public final class JCredito extends javax.swing.JFrame {
     private void jTextFieldBUSCARKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSCARKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {// llama el evento cuanto presiona ENTER
-
+            buscarClientes();
         }
     }//GEN-LAST:event_jTextFieldBUSCARKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         Abono ad = new Abono();
+        Abono ad = new Abono();
         ad.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextFieldBUSCARKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSCARKeyTyped
+        // TODO add your handling code here:
+        buscarClientes();
+    }//GEN-LAST:event_jTextFieldBUSCARKeyTyped
 
     /**
      * @param args the command line arguments
@@ -436,7 +444,39 @@ public final class JCredito extends javax.swing.JFrame {
             m = new DefaultTableModel(null, titulos);
             JTable p = new JTable(m);
             String fila[] = new String[4];
-            String consulta = "SELECT *  FROM  cliente";
+            String consulta = "SELECT *  FROM  cliente where cliente.status=1";
+            MySQL obj = new MySQL();
+            obj.MySQLConnect();
+            obj.comando = obj.conexion.createStatement();
+            ResultSet r = obj.comando.executeQuery(consulta);
+            int index = 1;
+            while (r.next()) {
+
+                fila[0] = r.getString(1).trim();
+                fila[1] = r.getString(2).trim();
+                fila[2] = r.getString(3).trim();
+                fila[3] = r.getString(5).trim();
+
+                m.addRow(fila);
+                index++;
+            }
+            TABLABASECLIENT.setModel(m);
+            TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<>(m);
+            TABLABASECLIENT.setRowSorter(elQueOrdena);
+            this.TABLABASECLIENT.setModel(m);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al extraer los datos de la tabla", "ADVERTENCIA", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void buscarClientes() {
+        try {
+            String titulos[] = {"ID", "NOMBRE COMPLETO", "DOMICILIO", "TELEFONO"};
+            String valor = jTextFieldBUSCAR.getText().trim();
+            m = new DefaultTableModel(null, titulos);
+            JTable p = new JTable(m);
+            String fila[] = new String[4];
+            String consulta = "SELECT *  FROM  cliente where nombre_cliente like '%" + valor + "%' and cliente.status=1";
             MySQL obj = new MySQL();
             obj.MySQLConnect();
             obj.comando = obj.conexion.createStatement();
@@ -486,7 +526,7 @@ public final class JCredito extends javax.swing.JFrame {
             cargarcodnotaDETALLE();
         }
     }
-    
+
     public void cargarcodnotaDETALLE() throws SQLException {
 
         MySQL obj = new MySQL();
