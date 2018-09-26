@@ -85,6 +85,11 @@ public final class Clientes extends javax.swing.JFrame {
             jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 60, 30));
 
             jTextFieldNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jTextFieldNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    jTextFieldNombreFocusGained(evt);
+                }
+            });
             jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     jTextFieldNombreActionPerformed(evt);
@@ -105,12 +110,27 @@ public final class Clientes extends javax.swing.JFrame {
             jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, -1, 30));
 
             jTextFieldDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jTextFieldDireccion.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    jTextFieldDireccionFocusGained(evt);
+                }
+            });
             jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 300, 30));
 
             jTextFieldMunicipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jTextFieldMunicipio.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    jTextFieldMunicipioFocusGained(evt);
+                }
+            });
             jPanel1.add(jTextFieldMunicipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 150, 30));
 
             jTextFieldTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+            jTextFieldTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    jTextFieldTelefonoFocusGained(evt);
+                }
+            });
             jPanel1.add(jTextFieldTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 110, 30));
 
             jButtonGuardar.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,8 +173,9 @@ public final class Clientes extends javax.swing.JFrame {
             });
             jPanel1.add(jButtonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 120, 50));
 
-            jButtonSalir.setBackground(new java.awt.Color(255, 204, 204));
+            jButtonSalir.setBackground(new java.awt.Color(255, 102, 102));
             jButtonSalir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+            jButtonSalir.setForeground(new java.awt.Color(153, 0, 51));
             jButtonSalir.setText("Salir");
             jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,6 +391,26 @@ public final class Clientes extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jTextFieldNombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNombreFocusGained
+        // TODO add your handling code here:
+        this.jTextFieldNombre.selectAll();
+    }//GEN-LAST:event_jTextFieldNombreFocusGained
+
+    private void jTextFieldTelefonoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoFocusGained
+        // TODO add your handling code here:
+        this.jTextFieldTelefono.selectAll();
+    }//GEN-LAST:event_jTextFieldTelefonoFocusGained
+
+    private void jTextFieldDireccionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldDireccionFocusGained
+        // TODO add your handling code here:
+        this.jTextFieldDireccion.selectAll();
+    }//GEN-LAST:event_jTextFieldDireccionFocusGained
+
+    private void jTextFieldMunicipioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldMunicipioFocusGained
+        // TODO add your handling code here:
+        this.jTextFieldMunicipio.selectAll();
+    }//GEN-LAST:event_jTextFieldMunicipioFocusGained
 
     /**
      * @param args the command line arguments

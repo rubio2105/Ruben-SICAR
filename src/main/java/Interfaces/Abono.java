@@ -7,15 +7,12 @@ package Interfaces;
 
 import conexionBD.MySQL;
 import java.awt.HeadlessException;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -144,6 +141,8 @@ public class Abono extends javax.swing.JFrame {
         Crédito.getContentPane().add(jTextFieldBUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 250, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Abonos");
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -183,13 +182,13 @@ public class Abono extends javax.swing.JFrame {
         jButtonBUSCAR.setBackground(new java.awt.Color(51, 153, 0));
         jButtonBUSCAR.setForeground(new java.awt.Color(255, 255, 255));
         jButtonBUSCAR.setText("Buscar");
-        jButtonBUSCAR.setToolTipText("BUSCA LA MEMBRESIA");
+        jButtonBUSCAR.setToolTipText("Busca el Crédito");
         jButtonBUSCAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBUSCARActionPerformed(evt);
             }
         });
-        jPanel4.add(jButtonBUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 70, 30));
+        jPanel4.add(jButtonBUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 80, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Abono:");
@@ -213,6 +212,7 @@ public class Abono extends javax.swing.JFrame {
         jButtonABONAR.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonABONAR.setForeground(new java.awt.Color(255, 255, 255));
         jButtonABONAR.setText("ABONAR");
+        jButtonABONAR.setToolTipText("Aplicar Abono al Crédito");
         jButtonABONAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonABONARActionPerformed(evt);
@@ -235,7 +235,7 @@ public class Abono extends javax.swing.JFrame {
         btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("LIMPIAR");
-        btnLimpiar.setToolTipText("LIMPIA LOS CAMPOS DE TEXTO");
+        btnLimpiar.setToolTipText("Limpia los Campos de Texto");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -274,7 +274,6 @@ public class Abono extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
         buscarCliente();
-
         Crédito.setSize(815, 410);
         Crédito.setLocationRelativeTo(null);
         Crédito.setModal(true);
@@ -420,13 +419,12 @@ public class Abono extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAGREGARActionPerformed
 
     private void jButtonSALIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSALIRActionPerformed
-        // TODO add your handling code here:
+              
         Crédito.dispose();
     }//GEN-LAST:event_jButtonSALIRActionPerformed
 
     private void jTableMEMBREMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMEMBREMousePressed
-        /* 
-         */
+       
         if (evt.getClickCount() == 2) {
             String dni;
             String nombre;
@@ -435,7 +433,6 @@ public class Abono extends javax.swing.JFrame {
             // TODO add your handling code here:
             try {
                 int fsel = jTableMEMBRE.getSelectedRow();
-
                 if (fsel == -1) {
                     JOptionPane.showMessageDialog(null, "Debe Seleccionar Un Crédito ", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
 
@@ -466,8 +463,6 @@ public class Abono extends javax.swing.JFrame {
             }
             Crédito.dispose();
         }
-
-
     }//GEN-LAST:event_jTableMEMBREMousePressed
 
     private void jTextFieldBUSQUEDAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSQUEDAKeyPressed
@@ -545,12 +540,11 @@ public class Abono extends javax.swing.JFrame {
         String formato = "dd-MM-yyyy";
         //Formato
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(formato);
-        //System.out.println(sdf.format(date));
+        SimpleDateFormat sdf = new SimpleDateFormat(formato);        
         return sdf.format(date);
 
     }
-
+//Busqueda de todos los clientes. 
     public void buscarCliente() {
         try {
             String titulos[] = {"ID", "Nombre Completo", "Teléfono", "Deuda", " Fecha de Deuda"};
@@ -584,7 +578,7 @@ public class Abono extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al Buscar el cliente", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+    //Busqueda por nombre de cliente.
     public void buscarClienteEspecifico() {
         try {
             String titulos[] = {"ID", "Nombre Completo", "Teléfono", "Deuda", " Fecha de Deuda"};
@@ -635,7 +629,6 @@ public class Abono extends javax.swing.JFrame {
         txtNOMBRE.setText("");
         jTextFieldABONO.setText("");
         jTextFieldDEUDA.setText("");
-
     }
 
 }
