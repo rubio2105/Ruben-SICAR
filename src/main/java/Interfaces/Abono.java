@@ -39,6 +39,7 @@ public class Abono extends javax.swing.JFrame {
      */
     public Abono() {
         initComponents();
+        
         this.setLocationRelativeTo(null);
     }
 
@@ -79,6 +80,7 @@ public class Abono extends javax.swing.JFrame {
         txtNOMBRE = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         Crédito.setTitle("Búsqueda de Clientes");
         Crédito.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -140,9 +142,11 @@ public class Abono extends javax.swing.JFrame {
         });
         Crédito.getContentPane().add(jTextFieldBUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 250, -1));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Abonos");
+        setUndecorated(true);
         setResizable(false);
+        setShape(getShape());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -246,6 +250,17 @@ public class Abono extends javax.swing.JFrame {
         jLabel3.setText("$");
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 10, 30));
 
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 90, 40));
+
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 300));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -258,9 +273,11 @@ public class Abono extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 284, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -419,12 +436,12 @@ public class Abono extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAGREGARActionPerformed
 
     private void jButtonSALIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSALIRActionPerformed
-              
+
         Crédito.dispose();
     }//GEN-LAST:event_jButtonSALIRActionPerformed
 
     private void jTableMEMBREMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMEMBREMousePressed
-       
+
         if (evt.getClickCount() == 2) {
             String dni;
             String nombre;
@@ -477,6 +494,13 @@ public class Abono extends javax.swing.JFrame {
         //4
     }//GEN-LAST:event_jTableMEMBREMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        JCredito ad = new JCredito();
+        ad.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -515,6 +539,7 @@ public class Abono extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog Crédito;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonABONAR;
     private javax.swing.JButton jButtonAGREGAR;
     private javax.swing.JButton jButtonBUSCAR;
@@ -540,11 +565,12 @@ public class Abono extends javax.swing.JFrame {
         String formato = "dd-MM-yyyy";
         //Formato
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(formato);        
+        SimpleDateFormat sdf = new SimpleDateFormat(formato);
         return sdf.format(date);
 
     }
 //Busqueda de todos los clientes. 
+
     public void buscarCliente() {
         try {
             String titulos[] = {"ID", "Nombre Completo", "Teléfono", "Deuda", " Fecha de Deuda"};
@@ -578,6 +604,7 @@ public class Abono extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al Buscar el cliente", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     //Busqueda por nombre de cliente.
     public void buscarClienteEspecifico() {
         try {

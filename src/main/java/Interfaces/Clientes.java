@@ -30,6 +30,7 @@ public final class Clientes extends javax.swing.JFrame {
 
     /**
      * Creates new form Creditos
+     *
      * @throws java.sql.SQLException
      */
     public Clientes() throws SQLException {
@@ -75,9 +76,11 @@ public final class Clientes extends javax.swing.JFrame {
             jLabel6 = new javax.swing.JLabel();
             jTextFieldID = new javax.swing.JTextField();
 
-            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
             setTitle("Clientes");
+            setUndecorated(true);
 
+            jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
             jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
             jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -293,20 +296,21 @@ public final class Clientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "FALTA ESCRIBIR EL NOMBRE DEL CLIENTE", "VERIFICAR", JOptionPane.WARNING_MESSAGE);
             this.jTextFieldNombre.requestFocus();
         } else {
-
+            int status = 1;
             try {
                 MySQL obj = new MySQL();
                 obj.MySQLConnect();
                 obj.comando = obj.conexion.createStatement();
                 PreparedStatement insertar = null;
 
-                String consulta = "Insert into cliente values (?,?,?,?,?) ";
+                String consulta = "Insert into cliente values (?,?,?,?,?,?) ";
                 insertar = obj.conexion.prepareStatement(consulta);
                 insertar.setString(1, jTextFieldID.getText().trim());
                 insertar.setString(2, jTextFieldNombre.getText().trim());
                 insertar.setString(3, jTextFieldDireccion.getText().trim());
                 insertar.setString(4, jTextFieldMunicipio.getText().trim());
                 insertar.setString(5, jTextFieldTelefono.getText().trim());
+                insertar.setInt(6, status);
                 insertar.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Datos Registrados Correctamente");
@@ -365,8 +369,8 @@ public final class Clientes extends javax.swing.JFrame {
             int res = JOptionPane.showConfirmDialog(null, "Está Seguro De Eliminar al Cliente:  " + this.jTextFieldNombre.getText().trim(), "MENSAJE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (res == 0) {
                 try {
-                    int status=-1;
-                    int id=Integer.parseInt(jTextFieldID.getText().trim());
+                    int status = -1;
+                    int id = Integer.parseInt(jTextFieldID.getText().trim());
                     MySQL obj = new MySQL();
                     obj.MySQLConnect();
                     obj.comando = obj.conexion.createStatement();
@@ -377,7 +381,7 @@ public final class Clientes extends javax.swing.JFrame {
                             + "where id_cliente= ? ");
                     insertar = obj.conexion.prepareStatement(consulta);
                     insertar.setInt(2, id);
-                    insertar.setInt(1, status);  
+                    insertar.setInt(1, status);
                     insertar.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Cliente Eliminado");
                     cargarclientes();
@@ -433,7 +437,7 @@ public final class Clientes extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 

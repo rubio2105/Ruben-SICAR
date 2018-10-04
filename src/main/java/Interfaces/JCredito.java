@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,6 +37,7 @@ public final class JCredito extends javax.swing.JFrame {
     public JCredito() {
         try {
             initComponents();
+            FechasJdate();
             jLabelIDCLIENTE.setVisible(false);
             jLabelIDCREDITO.setVisible(false);
             cargarClientes();
@@ -57,7 +60,12 @@ public final class JCredito extends javax.swing.JFrame {
         CLIENTES = new javax.swing.JDialog();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        TABLABASECLIENT = new javax.swing.JTable();
+        TABLABASECLIENT = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }
+        };
+        ;
         Adicionar_Clientes = new javax.swing.JButton();
         botonExit = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -97,6 +105,11 @@ public final class JCredito extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TABLABASECLIENT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                TABLABASECLIENTMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(TABLABASECLIENT);
 
         jPanel7.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 700, 290));
@@ -136,8 +149,10 @@ public final class JCredito extends javax.swing.JFrame {
         CLIENTES.getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 470));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(102, 255, 102)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -208,6 +223,8 @@ public final class JCredito extends javax.swing.JFrame {
         });
         jPanel3.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 80, 40));
         jPanel3.add(jLabelIDCREDITO, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 50, 30));
+
+        FECHA.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.add(FECHA, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 150, 30));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -244,6 +261,7 @@ public final class JCredito extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void btnBuscaCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaCliente1ActionPerformed
         // TODO add your handling code here:
@@ -296,6 +314,7 @@ public final class JCredito extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Seleccione una Fecha", "VERIFICAR", JOptionPane.WARNING_MESSAGE);
             } else {
                 int ban = 0;
+                int status = 1;
                 try {
                     TransformarFecha();
                     MySQL obj = new MySQL();
@@ -303,7 +322,7 @@ public final class JCredito extends javax.swing.JFrame {
                     obj.comando = obj.conexion.createStatement();
                     PreparedStatement insertar = null;
 
-                    String consultaCaso = "INSERT INTO credito(id_credito, fecha_credito, importe_credito, cliente_id_cliente, deuda_credito) " + "VALUES(?,?,?,?,?)";
+                    String consultaCaso = "INSERT INTO credito(id_credito, fecha_credito, importe_credito, cliente_id_cliente, deuda_credito, status) " + "VALUES(?,?,?,?,?,?)";
                     insertar = obj.conexion.prepareStatement(consultaCaso);
 
                     insertar.setString(1, jLabelIDCREDITO.getText().trim());
@@ -311,6 +330,7 @@ public final class JCredito extends javax.swing.JFrame {
                     insertar.setString(3, jTextFieldMONTO.getText().trim());
                     insertar.setString(4, jLabelIDCLIENTE.getText().trim());
                     insertar.setString(5, jTextFieldMONTO.getText().trim());
+                    insertar.setInt(6, status);
 
                     int n = insertar.executeUpdate();
 
@@ -362,12 +382,37 @@ public final class JCredito extends javax.swing.JFrame {
         // TODO add your handling code here:
         Abono ad = new Abono();
         ad.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldBUSCARKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBUSCARKeyTyped
         // TODO add your handling code here:
         buscarClientes();
     }//GEN-LAST:event_jTextFieldBUSCARKeyTyped
+
+    private void TABLABASECLIENTMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABLABASECLIENTMousePressed
+        // TODO add your handling code here:
+
+        //a
+        if (evt.getClickCount() == 2) {
+            try {
+                int fsel = TABLABASECLIENT.getSelectedRow();
+                if (fsel == -1) {
+                    JOptionPane.showMessageDialog(null, "Debe Seleccionar un Cliente ", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    m = (DefaultTableModel) TABLABASECLIENT.getModel();
+                    dni = TABLABASECLIENT.getValueAt(fsel, 0).toString();
+                    nombre = TABLABASECLIENT.getValueAt(fsel, 1).toString();
+                    txtcliente.setText("" + nombre + "");
+                    jLabelIDCLIENTE.setText("" + dni + "");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No Se Pudo Agregar El Cliente");
+            }
+            CLIENTES.dispose();
+        }
+
+    }//GEN-LAST:event_TABLABASECLIENTMousePressed
 
     /**
      * @param args the command line arguments
@@ -436,6 +481,13 @@ public final class JCredito extends javax.swing.JFrame {
         Date date = FECHA.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat(formato);
         return sdf.format(date);
+    }
+
+    public String FechasJdate() {
+        initComponents();
+        Calendar c2 = new GregorianCalendar();
+        FECHA.setCalendar(c2);        
+        return c2 + "";
     }
 
     public void cargarClientes() {
