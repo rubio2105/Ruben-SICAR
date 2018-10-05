@@ -37,7 +37,7 @@ public final class JCredito extends javax.swing.JFrame {
     public JCredito() {
         try {
             initComponents();
-            FechasJdate();
+            FechaHoy();
             jLabelIDCLIENTE.setVisible(false);
             jLabelIDCREDITO.setVisible(false);
             cargarClientes();
@@ -483,7 +483,7 @@ public final class JCredito extends javax.swing.JFrame {
         return sdf.format(date);
     }
 
-    public String FechasJdate() {
+    public String FechaHoy() {
         initComponents();
         Calendar c2 = new GregorianCalendar();
         FECHA.setCalendar(c2);        

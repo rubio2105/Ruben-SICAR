@@ -249,7 +249,7 @@ public final class Clientes extends javax.swing.JFrame {
         try {
             MySQL obj = new MySQL();
 
-            int fila = jTableClientes.getSelectedRow();//obtenemose el numero de la fila                    
+            int fila = jTableClientes.getSelectedRow();//obtenemos el numero de la fila                    
             jTextFieldID.setText(jTableClientes.getValueAt(fila, 0).toString());
             String consulta = "select * from cliente where id_cliente='" + Integer.parseInt(jTextFieldID.getText().trim()) + "';";
             obj.MySQLConnect();
